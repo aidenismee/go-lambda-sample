@@ -11,7 +11,7 @@ import (
 var echoLambdaHandler *echoadapter.EchoLambda
 
 func init() {
-	echoLambdaHandler = server.InitLambdaFunctionHandler()
+	echoLambdaHandler = server.InitLambdaHandler()
 }
 
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
