@@ -3,8 +3,9 @@ package config
 import "os"
 
 type Config struct {
-	Env          string
-	RouterConfig RouterConfig
+	Env            string
+	RouterConfig   RouterConfig
+	DatabaseConfig DatabaseConfig
 }
 
 type RouterConfig struct {
@@ -13,11 +14,20 @@ type RouterConfig struct {
 	WriteTimeout int
 }
 
+type DatabaseConfig struct {
+	DatabaseLog bool
+	DatabasePsn string
+}
+
 func LoadConfig() *Config {
 	appConfig := Config{
 		Env: os.Getenv("ENV"),
 		RouterConfig: RouterConfig{
 			Port: os.Getenv("PORT"),
+		},
+		DatabaseConfig: DatabaseConfig{
+			DatabaseLog: true,
+			DatabasePsn: os.Getenv("DATABASE_PSN"),
 		},
 	}
 

@@ -1,8 +1,8 @@
 package server
 
 import (
-	"context"
-
+	"github.com/aidenismee/go-lambda-sample/db"
+	"github.com/aidenismee/go-lambda-sample/pkg/static"
 	echoadapter "github.com/awslabs/aws-lambda-go-api-proxy/echo"
 
 	internalRouter "github.com/aidenismee/go-lambda-sample/internal/router"
@@ -15,8 +15,13 @@ var router routerPkg.Router
 func initServer() {
 	config := config.LoadConfig()
 
-	ctx := context.Background()
-	router = routerPkg.New(config.RouterConfig, internalRouter.SetupRouter(ctx))
+	database := db.NewDB(config.DatabaseConfig)
+
+	routerCtx := routerPkg.NewRouterCtx().
+		SetDependencies(static.DBCtxKey, database.GetClient())
+
+	router = routerPkg.New(config.RouterConfig,
+		internalRouter.SetupRouter(routerCtx))
 }
 
 func InitLambdaHandler() *echoadapter.EchoLambda {
