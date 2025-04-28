@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
-	"github.com/aidenismee/go-lambda-sample/internal/server"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
+
+	"github.com/aidenismee/go-lambda-sample/internal/server"
 	echoadapter "github.com/awslabs/aws-lambda-go-api-proxy/echo"
 )
 

@@ -26,7 +26,7 @@ type router struct {
 type RouteFunc func(router *echo.Echo) error
 
 func New(config config.RouterConfig, registerRoute RouteFunc) Router {
-	engine := setUpRouter(config)
+	engine := setUpRouter(&config)
 
 	if err := registerRoute(engine); err != nil {
 		log.Fatal(err)
@@ -38,12 +38,16 @@ func New(config config.RouterConfig, registerRoute RouteFunc) Router {
 	}
 }
 
-func setUpRouter(config config.RouterConfig) *echo.Echo {
+func setUpRouter(config *config.RouterConfig) *echo.Echo {
 	engine := echo.New()
 
+	if config == nil {
+		config = loadDefaultConfig()
+	}
+
 	engine.Server.Addr = fmt.Sprintf(":%d", config.Port)
-	engine.Server.ReadTimeout = 5 * time.Minute
-	engine.Server.WriteTimeout = 3 * time.Minute
+	engine.Server.ReadTimeout = time.Duration(config.ReadTimeout) * time.Minute
+	engine.Server.WriteTimeout = time.Duration(config.WriteTimeout) * time.Minute
 
 	return engine
 }

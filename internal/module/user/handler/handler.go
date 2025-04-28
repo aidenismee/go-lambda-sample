@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/aidenismee/go-lambda-sample/internal/model"
 	"github.com/labstack/echo/v4"
+	"net/http"
 	"strconv"
 )
 
@@ -29,6 +30,6 @@ func (h *UserHandler) GetDetailUser(ctx echo.Context) error {
 		return err
 	}
 
-	return ctx.JSON(200, user)
+	return ctx.JSON(http.StatusOK, user)
 
 }

@@ -12,7 +12,7 @@ import (
 
 var router routerPkg.Router
 
-func initServer() {
+func init() {
 	config := config.LoadConfig()
 
 	database := db.NewDB(config.DatabaseConfig)
@@ -25,13 +25,9 @@ func initServer() {
 }
 
 func InitLambdaHandler() *echoadapter.EchoLambda {
-	initServer()
-
 	return echoadapter.New(router.Engine())
 }
 
 func StartServer() {
-	initServer()
-
 	router.Start()
 }
